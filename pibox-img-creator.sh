@@ -140,14 +140,22 @@ function run {
 	echo "  -- resizing image to $SD_SIZE_GB GB"
 	img_resize $build_img $SD_SIZE_GB || fail "Unable to resize image file"
 
-	fdisk -l $build_img || fail "Unable to read image partition table"
-	boundaries_str=`fdisk -l $build_img | python $ROOT/partition_boundaries.py ${SD_SIZE_GB} ${SYSPART_SIZE_GB}`
+	# we want fdisk's output without whole path so it's cleaner to parse
+	cd $(dirof ${build_img})
+	local build_img_fname=`basename ${build_img}`
+	local fdisk_output=`fdisk -l ${build_img_fname}`
+	local fdisk_worked=$?
+	cd -
+	if [ ${fdisk_worked} -ne 0 ] ; then
+		fail "Unable to read image partition table"
+	fi
+	local boundaries_str=`echo ${fdisk_output} | python $ROOT/partition_boundaries.py ${SD_SIZE_GB} ${SYSPART_SIZE_GB}`
 	if [[ $? -ne 0 ]] ; then
 		fail "Failed to get information from partition table of image."
 	else
 		echo "Boundaries: ${boundaries_str}"
 	fi
-	boundaries=(${boundaries_str// / })
+	local boundaries=(${boundaries_str// / })
 	
 	echo " -- resizing / partition to match ${SYSPART_SIZE_GB}GB"
 	sudo LANG=C fdisk $build_img <<END_OF_CMD
