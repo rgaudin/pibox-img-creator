@@ -4,12 +4,24 @@
 # required packages (system qemu): qemu, python-virtualenv, exfat-utils
 # required packages (qemu compilation): libffi-dev build-essential libssl-dev
 ###
-
+# set -x
 ####### PARAMETERS
-# params
-SD_SIZE_GB=4  # size of target image in GB
-SYSPART_SIZE_GB=3  # size of / partition wihin target image (in GB). min. 2GB
-QEMU_RAM="2000M"  # max ram to use by QEMU guest (format: XM or XG)
+
+# size of target image in GB
+if [ -z "${SD_SIZE_GB}" ] ; then
+	SD_SIZE_GB=4
+fi
+
+# size of / partition wihin target image (in GB). min. 2GB
+if [ -z "${SYSPART_SIZE_GB}" ] ; then
+	SYSPART_SIZE_GB=3
+fi
+
+# max ram to use by QEMU guest (format: XM or XG)
+if [ -z "${QEMU_RAM}" ] ; then
+	QEMU_RAM="2G"
+fi
+
 ########
 
 function dirof {
@@ -54,7 +66,7 @@ function usage {
 }
 
 function fail {
-	if [ "${loopdev}a" != "a" ] ; then
+	if [ ! -z "${loopdev}" ] ; then
 		sudo losetup -d ${loopdev}
 	fi
 	echo "ERROR: $1"
@@ -83,7 +95,7 @@ function run {
 	# ensure setup ran successfuly
 	setup
 
-	if [ "${QEMU_PATH}a" = "a" ] ; then
+	if [ -z "${QEMU_PATH}" ] ; then
 		fail "setup failed."
 	fi
 
@@ -170,7 +182,7 @@ END_OF_CMD
 
 	echo "  -- preparing loop device for image"
 	loopdev=`sudo losetup --partscan --show --find $build_img`
-	if [ $? -ne 0 -o "${loopdev}a" = "a" ] ; then
+	if [ $? -ne 0 -o -z "${loopdev}" ] ; then
 		fail "Unable to get loop device"
 	else
 		echo "   loop device is ${loopdev}"
@@ -310,7 +322,7 @@ function setup {
 	# find best match for qemu
 	find_qemu
 
-	if [ "${QEMU_PATH}a" = "a" ] ; then
+	if [ -z "${QEMU_PATH}" ] ; then
 		echo "could not find a compatible QEMU version. compiling..."
 
 		sleep 2
@@ -330,6 +342,9 @@ function setup {
 }
 
 if [ "$1a" = "runa" ]; then
+	if [ ! -z "${2}" ] ; then
+		SD_SIZE_GB=$2
+	fi
 	run
 elif [ "$1a" = "cleana" ]; then
 	clean
