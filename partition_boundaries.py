@@ -28,7 +28,7 @@ def main(disk_size=8, root_size=2):
         print(" ".join([text_type(x) for x in data]))
 
     except Exception as exp:
-        print("Error: {}".format(exp))
+        print("Error: {:exp}".format(exp))
         sys.exit(1)
 
 
@@ -65,11 +65,11 @@ def get_partitions_boundaries(lines, disk_size, root_size):
 
     # calculate new end of root
     disk_size_b = disk_size * 2 ** 30  # 8589934592
-    nb_expected_clusters = disk_size_b / sector_size  # 16777216
+    nb_expected_clusters = disk_size_b // sector_size  # 16777216
     assert number_of_sector == nb_expected_clusters
 
     size_up_to_root_b = root_size * 2 ** 30  # 2147483648
-    nb_clusters_endofroot = size_up_to_root_b / sector_size  # 4194304
+    nb_clusters_endofroot = size_up_to_root_b // sector_size  # 4194304
 
     root_start = second_partition_start
     root_end = nb_clusters_endofroot
