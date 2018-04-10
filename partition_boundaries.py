@@ -28,7 +28,7 @@ def main(disk_size=8, root_size=2):
         print(" ".join([text_type(x) for x in data]))
 
     except Exception as exp:
-        print("Error: {:exp}".format(exp))
+        print("Error: {}".format(repr(exp)))
         sys.exit(1)
 
 

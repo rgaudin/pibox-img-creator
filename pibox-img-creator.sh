@@ -107,6 +107,8 @@ function run {
 		fail "System partition needs more than 2GB"
 	fi
 
+	echo "starting with SD_SIZE_GB=${SD_SIZE_GB} and SYSPART_SIZE_GB=${SYSPART_SIZE_GB}"
+
 	echo "Downloading Qemu dependencies (vexpress)"
 	wget -O ${vexpress_zip} -c ${VEXPRESS_URL}
 	if [ ! -d ${vexpress_dir} ] ; then
