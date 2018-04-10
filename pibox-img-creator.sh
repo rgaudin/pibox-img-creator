@@ -30,12 +30,12 @@ function dirof {
 ROOT=$(dirof $0)
 
 ANSIBLECUBE_VERSION=0.5  # ansiblecube version/branch to use
-RASPBIAN_VERSION="2017-07-05-raspbian-jessie-lite"
-# RASPBIAN_VERSION="2018-03-13-raspbian-stretch-lite"
+RASPBIAN_VERSION="2017-07-05/2017-07-05-raspbian-jessie-lite"
+# RASPBIAN_VERSION="2018-03-14/2018-03-13-raspbian-stretch-lite"
 QEMU_DL_VERSION="2.11.1"
 
 # URLS
-RASPBIAN_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-`echo $RASPBIAN_VERSION | awk '{print substr($1, 0, 10)}'`/${RASPBIAN_VERSION}.zip"
+RASPBIAN_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-${RASPBIAN_VERSION}.zip"
 # VEXPRESS_URL="http://download.kiwix.org/dev/pibox-installer-vexpress-boot.zip"
 VEXPRESS_URL="https://kiwix.ml/pibox-installer-vexpress-boot.zip"
 QEMU_URL=http://download.qemu-project.org/qemu-${QEMU_DL_VERSION}.tar.xz
@@ -114,9 +114,9 @@ function run {
 	fi
 
 	echo "Downloading raspbian image"
-	wget -O ${raspbian_img} -c ${RASPBIAN_URL}
+	wget -O ${raspbian_zip} -c ${RASPBIAN_URL}
 	if [ ! -f $raspbian_img ] ; then
-		unzip `basename $RASPBIAN_URL`
+		unzip ${raspbian_zip}
 	fi
 
 	echo "Downloading latest ansiblecube (${ANSIBLECUBE_VERSION})"
