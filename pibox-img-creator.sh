@@ -149,8 +149,8 @@ function run {
 	if [ ${fdisk_worked} -ne 0 ] ; then
 		fail "Unable to read image partition table"
 	fi
-	local boundaries_str=`echo ${fdisk_output} | python $ROOT/partition_boundaries.py ${SD_SIZE_GB} ${SYSPART_SIZE_GB}`
-	if [[ $? -ne 0 ]] ; then
+	local boundaries_str=`echo "${fdisk_output}" | python $ROOT/partition_boundaries.py ${SD_SIZE_GB} ${SYSPART_SIZE_GB}`
+	if [ $? -ne 0 ] ; then
 		fail "Failed to get information from partition table of image."
 	else
 		echo "Boundaries: ${boundaries_str}"
