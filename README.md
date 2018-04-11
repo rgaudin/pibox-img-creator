@@ -24,7 +24,7 @@ PICUSER ALL = (ALL) NOPASSWD: /sbin/fdisk
 PICUSER ALL = (ALL) NOPASSWD: /sbin/losetup
 PICUSER ALL = (ALL) NOPASSWD: /sbin/e2fsck
 PICUSER ALL = (ALL) NOPASSWD: /sbin/resize2fs
-PICUSER ALL = (ALL) NOPASSWD: /sbin//sbin/mkfs.exfat
+PICUSER ALL = (ALL) NOPASSWD: /sbin/mkfs.exfat
 ```
 
 ## setup
