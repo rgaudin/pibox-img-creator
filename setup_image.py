@@ -161,6 +161,11 @@ def run_in_qemu(image_building_path, qemu_binary, qemu_ram,
 
 def main(image_building_path, qemu_path='.', qemu_ram='2G'):
     print("starting with target:", image_building_path)
+
+    if not os.path.exists(image_building_path):
+        raise IOError("image path does not exists: {}"
+                      .format(image_building_path))
+
     cancel_event = CancelEvent()
     error = run_in_qemu(
         image_building_path,
@@ -177,4 +182,9 @@ def main(image_building_path, qemu_path='.', qemu_ram='2G'):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: {} image_path [qemu_bin_folder qemu_ram]"
+              .format(sys.argv[0]))
+        sys.exit(1)
+
     main(*sys.argv[1:])
