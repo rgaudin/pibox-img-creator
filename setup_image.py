@@ -21,6 +21,11 @@ import threading
 import qemu
 import ansiblecube
 
+try:
+    text_type = unicode  # Python 2
+except NameError:
+    text_type = str      # Python 3
+
 _vexpress_boot_dir = "pibox-installer-vexpress-boot"
 vexpress_boot_kernel = os.path.join(_vexpress_boot_dir, "zImage")
 vexpress_boot_dtb = os.path.join(_vexpress_boot_dir,
@@ -147,7 +152,7 @@ def run_in_qemu(image_building_path, qemu_binary, qemu_ram,
             os.rename(image_building_path, image_error_path)
 
         logger.step("Failed")
-        logger.err(str(e))
+        logger.err(text_type(e))
         error = e
     else:
         # Set final image filename
