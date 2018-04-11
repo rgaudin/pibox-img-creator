@@ -1,10 +1,8 @@
 #!/bin/bash
+#
+# creates a kiwix base image file off a raspbian one
+# see README.md for details
 
-###
-# required packages (system qemu): qemu, python-virtualenv, exfat-utils
-# required packages (qemu compilation): libffi-dev build-essential libssl-dev
-###
-# set -x
 ####### PARAMETERS
 
 # size of target image in GB

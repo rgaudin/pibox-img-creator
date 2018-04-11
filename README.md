@@ -12,7 +12,7 @@ pibox-installer 2.0+ uses a custom base image based off raspbian-lite with the f
 ## requirements
 
 * Python 2.7+
-* Qemu 2.8+
+* Qemu 2.8+ (compiled if not found)
 * `apt install python python-virtualenv wget unzip exfat-utils e2fsprogs util-linux mount`
 * **sudo powers**: `fdisk`, `losetup`, `e2fsck`, `resize2fs`, `mkfs.exfat`)
 
